@@ -1,25 +1,10 @@
-//n=7
-//OlaMundo
-//Ola Mundo
-//Teste@!###$po()/~[´}´ç
-n1
-n123
-1
-123
-1.0
-//nome_Empresa
-11.0
-11.22 + 12 - 20 % 11 / 5
-)({},
-  =  ;
-123abs
-1_
-= value
-//Fabio
-Alyson
-'1'
-a
-'a'
-//!qw@%&8Lucas8546
-peste
+965
+123.70
+'a' 
+main if else do while for int char
+nome n1 tipo_Empresa
+ +-*/
+ = ==
+ []()|
+ 
 $
