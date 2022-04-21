@@ -1,4 +1,6 @@
-n = 7
+//n=7
+//OlaMundo
+//Ola Mundo
 n1
 n123
 1
@@ -13,6 +15,7 @@ nome_Empresa
 1_
 = value
 //Fabio
+Alyson
 '1'
 a
 'a'
