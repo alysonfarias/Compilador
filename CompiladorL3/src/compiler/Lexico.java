@@ -159,15 +159,16 @@ public class Lexico {
 				}
 				break;
 			case 9:
-				// INLINE COMMENT EM PROGRESSO
-				if (this.isDigitOrLetter(c) || c == '=') {
+
+				if (c == '\n' || c == '\t' || c == '\r') {
+					state = 13;
+					break;
+
+				} else {
 					lexeme.append(c);
 					state = 9;
 					break;
 				}
-
-				state = 13;
-				break;
 
 			case 10:
 				if (this.isDigit(c) || this.isLetter(c)) {

@@ -1,12 +1,13 @@
 //n=7
 //OlaMundo
 //Ola Mundo
+//Teste@!###$po()/~[´}´ç
 n1
 n123
 1
 123
 1.0
-nome_Empresa
+//nome_Empresa
 11.0
 11.22 + 12 - 20 % 11 / 5
 )({},
@@ -19,6 +20,6 @@ Alyson
 '1'
 a
 'a'
-
+//!qw@%&8Lucas8546
 peste
 $
