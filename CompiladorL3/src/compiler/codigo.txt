@@ -1,22 +1,10 @@
-===
->
-a >= b
-<
-<=
-=
-++
-+++
---
-//n=7
-//OlaMundo
+main if else do while for int char
+--;
 //Ola Mundo
-//Teste@!###$po()/~[´}´ç
 n1;
 ++;
 $
---;
 n123
-//!qw@%&8Lucas8546
 main
 1
 123

@@ -19,21 +19,21 @@ public class Token {
 
     public static int ENDCODE_TYPE = 99;
 
-    private int type;
-    private String lexeme;
+	private int type;
+	private String lexeme;
 
-    public Token(String lexeme, int tipo) {
-        this.lexeme = lexeme;
-        this.type = tipo;
-    }
+	public Token(String lexeme, int tipo) {
+		this.lexeme = lexeme;
+		this.type = tipo;
+	}
 
-    public String getLexeme() {
-        return this.lexeme;
-    }
+	public String getLexeme() {
+		return this.lexeme;
+	}
 
-    public int getType() {
-        return this.type;
-    }
+	public int getType() {
+		return this.type;
+	}
 
     @Override
     public String toString() {
