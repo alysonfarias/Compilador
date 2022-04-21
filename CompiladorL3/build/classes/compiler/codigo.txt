@@ -2,9 +2,10 @@
 123.70
 'a' 
 main if else do while for int char
-nome n1 tipo_Empresa
+nome n1 tipo_Empresa                   
  +-*/
  = ==
  []()|
- 
+ //<>====>>><<<
+ >====<=<
 $
