@@ -48,70 +48,88 @@ public class Lexico {
 		return (c >= '0') && (c <= '9');
 	}
 
-	private boolean isDigitOrLetter(char c) {
-		return isLetter(c) || isDigit(c);
+	private boolean isReserved(String c) {
+		if (c.compareTo("main") == 0 || c.compareTo("if") == 0 || c.compareTo("else") == 0 || c.compareTo("while") == 0
+				|| c.compareTo("do") == 0 || c.compareTo("for") == 0 || c.compareTo("int") == 0
+				|| c.compareTo("float") == 0 || c.compareTo("char") == 0) {
+			return true;
+		}
+		return false;
 	}
 
 	public Token nextToken() {
 		Token token = null;
-		char c;
+		char currentChar;
 		int state = 0;
+		String lexeme = "";
 
-		StringBuffer lexeme = new StringBuffer();
 		while (this.hasNextChar()) {
-			c = this.nextChar();
+			currentChar = this.nextChar();
 			switch (state) {
 			case 0:
-				if (c == ' ' || c == '\t' || c == '\n' || c == '\r') {
+				if (currentChar == ' ' || currentChar == '\t' || currentChar == '\n' || currentChar == '\r') {
 					state = 0;
-				} else if ((this.isLetter(c) || c == '_')) {
-					lexeme.append(c);
+				} else if ((this.isLetter(currentChar) || currentChar == '_')) {
+					lexeme += currentChar;
 					state = 1;
-				} else if (this.isDigit(c)) {
-					lexeme.append(c);
+				} else if (this.isDigit(currentChar)) {
+					lexeme += currentChar;
 					state = 2;
-				} else if (c == ')' || c == '(' || c == '{' || c == '}' || c == ',' || c == ';') {
-					lexeme.append(c);
+				} else if (currentChar == ')' || currentChar == '(' || currentChar == '{' || currentChar == '}'
+						|| currentChar == ',' || currentChar == ';' || currentChar == '[' || currentChar == ']'
+						|| currentChar == '|') {
+					lexeme += currentChar;
 					state = 5;
-				} else if (c == '+' || c == '-' || c == '*' || c == '%') {
-					lexeme.append(c);
+				} else if (currentChar == '+' || currentChar == '-' || currentChar == '*' || currentChar == '%') {
+					lexeme += currentChar;
 					state = 6;
-				} else if (c == '=') {
-					lexeme.append(c);
+				} else if (currentChar == '=') {
+					lexeme += currentChar;
 					state = 7;
-				} else if (c == '/') {
-					lexeme.append(c);
+				} else if (currentChar == '<' || currentChar == '>') {
+
+				}
+
+				else if (currentChar == '/') {
+					lexeme += currentChar;
 					state = 8;
-				} else if (c == '\'') {
-					lexeme.append(c);
+				} else if (currentChar == '\'') {
+					lexeme += currentChar;
 					state = 10;
-				} else if (c == '+' || c == '-') {
-					lexeme.append(c);
+				} else if (currentChar == '+' || currentChar == '-') {
+					lexeme += currentChar;
 					state = 13;
-				} else if (c == '$') {
-					lexeme.append(c);
+				} else if (currentChar == '$') {
+					lexeme += currentChar;
 					state = 99;
 					this.back();
 				} else {
-					lexeme.append(c);
+					lexeme += currentChar;
 					throw new RuntimeException("ERROR: INVALID TOKEN MAIN\"" + lexeme.toString() + "\"");
 				}
 				break;
 			case 1:
-				if (this.isLetter(c) || this.isDigit(c) || c == '_') {
-					lexeme.append(c);
+				if (this.isLetter(currentChar) || this.isDigit(currentChar) || currentChar == '_') {
+					lexeme += currentChar;
 					state = 1;
+
 				} else {
+					if (this.isReserved(lexeme)) {
+						this.back();
+						return new Token(lexeme.toString(), Token.RESERVED_WORD);
+
+					}
+
 					this.back();
 					return new Token(lexeme.toString(), Token.IDENTIFIER_TYPE);
 				}
 				break;
 			case 2:
-				if (this.isDigit(c)) {
-					lexeme.append(c);
+				if (this.isDigit(currentChar)) {
+					lexeme += currentChar;
 					state = 2;
-				} else if (c == '.') {
-					lexeme.append(c);
+				} else if (currentChar == '.') {
+					lexeme += currentChar;
 					state = 3;
 				} else {
 					this.back();
@@ -119,16 +137,16 @@ public class Lexico {
 				}
 				break;
 			case 3:
-				if (this.isDigit(c)) {
-					lexeme.append(c);
+				if (this.isDigit(currentChar)) {
+					lexeme += currentChar;
 					state = 4;
 				} else {
 					throw new RuntimeException("ERROR: REAL NUMBER BADLY FORMATTED \"" + lexeme.toString() + "\"");
 				}
 				break;
 			case 4:
-				if (this.isDigit(c)) {
-					lexeme.append(c);
+				if (this.isDigit(currentChar)) {
+					lexeme += currentChar;
 					state = 4;
 				} else {
 					this.back();
@@ -142,16 +160,17 @@ public class Lexico {
 				this.back();
 				return new Token(lexeme.toString(), Token.ARITHMETIC_OPERATOR);
 			case 7:
-				if (c == '=') {
-					// TODO OPERADOR RELACIONAL
+				if (currentChar == '=') {
+					lexeme += currentChar;
+					state = 14;
 				} else {
 					this.back();
 					return new Token(lexeme.toString(), Token.ASSIGNMENT_TYPE);
 				}
 				break;
 			case 8:
-				if (c == '/') {
-					lexeme.append(c);
+				if (currentChar == '/') {
+					lexeme += currentChar;
 					state = 9;
 				} else {
 					this.back();
@@ -160,35 +179,35 @@ public class Lexico {
 				break;
 			case 9:
 
-				if (c == '\n' || c == '\t' || c == '\r') {
+				if (currentChar == '\n' || currentChar == '\t' || currentChar == '\r') {
 					state = 13;
 					break;
 
 				} else {
-					lexeme.append(c);
+					lexeme += currentChar;
 					state = 9;
 					break;
 				}
 
 			case 10:
-				if (this.isDigit(c) || this.isLetter(c)) {
-					lexeme.append(c);
+				if (this.isDigit(currentChar) || this.isLetter(currentChar)) {
+					lexeme += currentChar;
 					state = 11;
 				} else {
 					throw new RuntimeException("ERROR: CHAR BADLY FORMATTED \"" + lexeme.toString() + "\"");
 				}
 				break;
 			case 11:
-				if (c == '\'') {
-					lexeme.append(c);
+				if (currentChar == '\'') {
+					lexeme += currentChar;
 					return new Token(lexeme.toString(), Token.CHAR_TYPE);
 				} else {
 					throw new RuntimeException("ERROR: CHAR BADLY FORMATTED\"" + lexeme.toString() + "\"");
 				}
 			case 12:
 				// TODO: Fazer o ++ e o --
-				if ((c == '+' || c == '-')) {
-					lexeme.append(c);
+				if ((currentChar == '+' || currentChar == '-')) {
+					lexeme += currentChar;
 					return new Token(lexeme.toString(), Token.DE_IN_CREMENT);
 				} else {
 					throw new RuntimeException("ERROR: CREMENT  BADLY FORMATTED\"" + lexeme.toString() + "\"");
@@ -196,6 +215,9 @@ public class Lexico {
 			case 13:
 				this.back();
 				return new Token(lexeme.toString(), Token.INLINE_COMMENT);
+			case 14:
+				this.back();
+				return new Token(lexeme.toString(), Token.RELACIONAL_OPERATOR);
 
 			case 99:
 				return new Token(lexeme.toString(), Token.ENDCODE_TYPE);
