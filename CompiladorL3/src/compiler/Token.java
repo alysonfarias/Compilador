@@ -14,9 +14,8 @@ public class Token {
     public static int ASSIGNMENT_TYPE = 8;
     public static int INLINE_COMMENT = 9;
     public static int RESERVED_WORD = 10;
-    public static int INCREMENT = 11; 
-    public static int DECREMENT = 22;
-    //TODO: ALTERAR A ORDEM APOS MERGER p deixar sequencial, tanto aqui quanto no metodo toString()
+    public static int INCREMENT_OPERATOR = 11; 
+    public static int DECREMENT_OPERATOR = 12;
 
     public static int ENDCODE_TYPE = 99;
 
@@ -61,7 +60,7 @@ public class Token {
                 return this.lexeme + " - RESERVED_WORD";
             case 11:
                 return this.lexeme + " - INCREMENTAL_OPERATOR";
-            case 22:
+            case 12:
                 return this.lexeme + " - DECREMENTAL_OPERATOR";
             case 99:
                 return this.lexeme + " - END_CODE";
