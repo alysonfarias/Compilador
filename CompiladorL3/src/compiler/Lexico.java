@@ -80,15 +80,24 @@ public class Lexico {
                             || currentChar == '|') {
                         lexeme += currentChar;
                         state = 5;
-                    } else if (currentChar == '+' || currentChar == '-' || currentChar == '*' || currentChar == '%') {
+                    } else if (currentChar == '*' || currentChar == '%') {
                         lexeme += currentChar;
                         state = 6;
+                    } else if (currentChar == '+') {
+                        lexeme += currentChar;
+                        state = 61;
+                    } else if (currentChar == '-') {
+                        lexeme += currentChar;
+                        state = 63;
                     } else if (currentChar == '=') {
                         lexeme += currentChar;
                         state = 7;
                     } else if (currentChar == '<' || currentChar == '>') {
                         lexeme += currentChar;
-                        state = 15;
+                        state = 71;
+                    } else if (currentChar == '!') {
+                        lexeme += currentChar;
+                        state = 72;
                     } else if (currentChar == '/') {
                         lexeme += currentChar;
                         state = 8;
@@ -99,9 +108,6 @@ public class Lexico {
                         lexeme += currentChar;
                         state = 99;
                         this.back();
-                    } else if (currentChar == '!') {
-                        lexeme += currentChar;
-                        state = 7;
                     } else {
                         lexeme += currentChar;
                         throw new RuntimeException("ERROR: INVALID TOKEN MAIN\"" + lexeme.toString() + "\"");
@@ -154,22 +160,56 @@ public class Lexico {
                     this.back();
                     return new Token(lexeme.toString(), Token.SPECIAL_CHARACTER);
                 case 6:
+                    this.back();
+                    return new Token(lexeme.toString(), Token.ARITHMETIC_OPERATOR);
+                case 61:
                     if (currentChar == '+') {
                         lexeme += currentChar;
-                        return new Token(lexeme.toString(), Token.INCREMENT_OPERATOR);
-                    } else if (currentChar == '-') {
-                        lexeme += currentChar;
-                        return new Token(lexeme.toString(), Token.DECREMENT_OPERATOR);
+                        state = 62;
                     } else {
                         this.back();
                         return new Token(lexeme.toString(), Token.ARITHMETIC_OPERATOR);
                     }
+                    break;
+                case 62:
+                    this.back();
+                    return new Token(lexeme.toString(), Token.INCREMENT_OPERATOR);
+                case 63:
+                    if (currentChar == '-') {
+                        lexeme += currentChar;
+                        state = 64;
+                    } else {
+                        this.back();
+                        return new Token(lexeme.toString(), Token.ARITHMETIC_OPERATOR);
+                    }
+                    break;
+                case 64:
+                    this.back();
+                    return new Token(lexeme.toString(), Token.DECREMENT_OPERATOR);
                 case 7:
                     if (currentChar == '=') {
                         lexeme += currentChar;
-                        state = 14;
+                        state = 101;
                     } else {
+                        this.back();
                         return new Token(lexeme.toString(), Token.ASSIGNMENT_TYPE);
+                    }
+                    break;
+                case 71:
+                    if (currentChar == '=') {
+                        lexeme += currentChar;
+                        state = 101;
+                    } else {
+                        this.back();
+                        return new Token(lexeme.toString(), Token.RELATIONAL_OPERATOR);
+                    }
+                    break;
+                case 72:
+                    if (currentChar == '=') {
+                        lexeme += currentChar;
+                        state = 101;
+                    } else {
+                        throw new RuntimeException("ERROR: INVALID CARACT \"" + lexeme.toString() + "\"");
                     }
                     break;
                 case 8:
@@ -191,34 +231,33 @@ public class Lexico {
                         break;
                     }
                 case 10:
-                    if (currentChar != '\'') {
+                    if (isDigit(currentChar) || isLetter(currentChar)) {
                         lexeme += currentChar;
-                        state = 11;
+                        state = 110;
                     } else {
-                        throw new RuntimeException("ERROR: CHAR BADLY FORMATTED \"" + lexeme.toString() + "\"");
+                       lexeme = String.valueOf(currentChar); 
+                       throw new RuntimeException("ERROR: CHAR BADLY FORMATTED X \"" + lexeme.toString() + "\"");
                     }
                     break;
-                case 11:
+                case 110:
                     if (currentChar == '\'') {
                         lexeme += currentChar;
-                        return new Token(lexeme.toString(), Token.CHAR_TYPE);
+                        state = 111;
                     } else {
-                        throw new RuntimeException("ERROR: CHAR BADLY FORMATTED\"" + lexeme.toString() + "\"");
+                        this.back();
+                        throw new RuntimeException("ERROR: CHAR BADLY FORMATTED Y \"" + lexeme.toString() + "\"");
                     }
+                    break;
+                case 111:
+                    this.back();
+                    return new Token(lexeme.toString(), Token.CHAR_TYPE);
                 case 13:
                     this.back();
                     return new Token(lexeme.toString(), Token.INLINE_COMMENT);
-                case 14:
+                case 101:
                     this.back();
                     return new Token(lexeme.toString(), Token.RELATIONAL_OPERATOR);
-                case 15:
-                    if (currentChar == '=') {
-                            lexeme += currentChar;
-                            state = 14;
-                            break;
-                    }
-                    this.back();
-                    return new Token(lexeme.toString(), Token.RELATIONAL_OPERATOR);
+
                 case 99:
                     return new Token(lexeme.toString(), Token.ENDCODE_TYPE);
             }
