@@ -3,10 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Pichau/Desktop/ProjetoCompiladorAtual/ProjetoCompilador/Compilador/CompiladorL3/src/compiler/Lexico.java</file>
-            <file>file:/C:/Users/Pichau/Desktop/ProjetoCompiladorAtual/ProjetoCompilador/Compilador/CompiladorL3/src/compiler/CompiladorFaccao.java</file>
-            <file>file:/C:/Users/Pichau/Desktop/ProjetoCompiladorAtual/ProjetoCompilador/Compilador/CompiladorL3/src/compiler/codigo.txt</file>
-            <file>file:/C:/Users/Pichau/Desktop/ProjetoCompiladorAtual/ProjetoCompilador/Compilador/CompiladorL3/src/compiler/Token.java</file>
+            <file>file:/C:/Users/Pichau/Desktop/aCompilador/ProjetoCompiladorAtual/ProjetoCompilador/Compilador/CompiladorL3/src/compiler/Token.java</file>
+            <file>file:/C:/Users/Pichau/Desktop/aCompilador/ProjetoCompiladorAtual/ProjetoCompilador/Compilador/CompiladorL3/src/compiler/Parser.java</file>
+            <file>file:/C:/Users/Pichau/Desktop/aCompilador/ProjetoCompiladorAtual/ProjetoCompilador/Compilador/CompiladorL3/src/compiler/Lexico.java</file>
         </group>
     </open-files>
 </project-private>
